@@ -1,12 +1,15 @@
 from typing import Optional
 from uuid import UUID
 
+from pydantic import ConfigDict
 from lato import Command
 
 from models import Order
 
 
 class CommandBase(Command):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     order: Order = None
     user_input: str = ''
     hotkey: str = ''

@@ -1,4 +1,5 @@
 from lato import ApplicationModule, TransactionContext
+from mopyx import action
 
 from models import Order, Item
 from commands import ResetOrder, AddProductByPlu, ChangeQty, Storno, SaveOrder
@@ -13,6 +14,8 @@ def handle_reset_order(cmd: ResetOrder):
     order = cmd.order
     order.reset()
 
+
+@action
 @orders.handler(AddProductByPlu)
 def handle_add_product_by_plu(cmd: AddProductByPlu):
     order = cmd.order

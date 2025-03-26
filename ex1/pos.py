@@ -1,7 +1,7 @@
 from mopyx import model, render, render_call, action
 
-from ui.order_form import UiOrderForm, UiOrderFooter
-from models_1 import Order
+from ui_cli.order_form import UiOrderForm, UiOrderFooter
+from models import Order
 from db import search
 
 order = Order()

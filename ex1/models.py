@@ -1,4 +1,3 @@
-from uuid import UUID
 from datetime import datetime
 from dataclasses import dataclass
 
@@ -30,23 +29,21 @@ class Item:
 
 @model
 class Order():
-    def __init__(self, id: UUID):
-        self.id: UUID
-        self.number: int = 0
+    def __init__(self):
+        self.id = 0
         self.datetime: datetime = 0
         self.date: str = ""
         self.time: str = ""
         self.items: [Item] = []
-        self.reset()
 
     def reset(self):
-        self.id = self._get_new_number()
+        self.id = self._get_new_id()
         self.datetime = datetime.now()
         self.date = self.datetime.strftime("%d-%m-%Y")
         self.time = self.datetime.strftime("%H:%M:%S")
         self.items: [Item] = []
 
-    def _get_new_number(self):
+    def _get_new_id(self):
         return 1  # todo
 
     def has_items(self):
@@ -55,13 +52,19 @@ class Order():
     def length(self):
         return len(self.items)
 
-    @property
-    def total(self):
-        res = 0
-        for item in self.items:
-            res += item.item_total
-        return res
+    def add_line(self, plu):
+        prod = search(plu)
+        if prod is None:
+            print(f"Товар с кодом {plu} не найден!")
+            return
+        item = Item(
+            name=prod['name'],
+            unit_price=prod['unit_price'],
+        )
+        self.items.append(item)
 
+        self.selectedItemIndex = len(self.items) - 1
+        return self.selectedItemIndex
 
     # Вынесено в handler
     # def change_qty(self, qty, index=None):
@@ -75,6 +78,11 @@ class Order():
     #     #print(f"index: {self.selectedItemIndex}, item: {item}")
     #     item.qty = qty
 
+    def storno(self, index=None):
+        if self.has_items():
+            self.items.pop()
+
+
 
     @property
     def total(self):
@@ -83,8 +91,8 @@ class Order():
             res += item.item_total
         return res
 
-    def __str__(self):
-        return f"Order. Date: {self.date}, time: {self.time}, {self.length()} item/s, total: {self.total}"
+
+
 
 def main():
     order1 = Order()

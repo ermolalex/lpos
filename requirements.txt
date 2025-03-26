@@ -1,0 +1,4 @@
+pytest
+mopyx
+lato
+prettytable

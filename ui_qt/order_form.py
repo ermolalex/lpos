@@ -72,10 +72,10 @@ class OrderForm(QWidget, Ui_Form):
 
     #@action
     def change_qty(self):
-        ...
+        self.app.execute(commands.ChangeQty(order=self.order, user_input=self.user_input.text()))
 
     def cancel_order(self):
-        ...
+        self.app.execute(commands.ResetOrder(order=self.order))
 
     def set_product(self):
         ...
